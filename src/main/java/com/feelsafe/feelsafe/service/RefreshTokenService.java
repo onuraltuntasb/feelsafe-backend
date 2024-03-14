@@ -19,12 +19,10 @@ public class RefreshTokenService {
 
     private final String jwtRefreshExpirationSecond = jwtProperties.getJwtRefreshExpirationSecond();
     private final JdbcRefreshTokenRepository jdbcRefreshTokenRepository;
-    private final JdbcUserRepository jdbcUserRepository;
 
     public RefreshTokenService(JdbcRefreshTokenRepository jdbcRefreshTokenRepository,
                                JdbcUserRepository jdbcUserRepository) {
         this.jdbcRefreshTokenRepository = jdbcRefreshTokenRepository;
-        this.jdbcUserRepository = jdbcUserRepository;
     }
 
 

@@ -71,19 +71,19 @@ public class JwtUtils {
 
     public String createToken(Map<String, Object> claims, UserDetails userDetails) {
 
-        System.out.println("token expire when : " + jwtExpirationsMs); System.out.println(
+        System.out.println("token expire when : " + jwtExpirationsMs);
+        System.out.println(
                 "token signingKey when : " + jwtSecret);
 
         return Jwts
                 .builder()
                 .setClaims(claims)
-                //TODO: pass user email to userDetail's username
+                //NOTE: passed user email to userDetail's username
                 .setSubject(userDetails.getUsername())
-
                 //TODO authorities
                 .claim("authorities", userDetails.getAuthorities())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + Integer.parseInt(jwtExpirationsMs)))
+                .setExpiration(new Date(System.currentTimeMillis() + Long.parseLong(jwtExpirationsMs)))
                 .signWith(SignatureAlgorithm.HS256, jwtSecret)
                 .compact();
     }

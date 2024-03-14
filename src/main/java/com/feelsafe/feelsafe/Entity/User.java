@@ -9,6 +9,8 @@ import java.util.Collection;
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class User implements UserDetails {
 
     private Long id;

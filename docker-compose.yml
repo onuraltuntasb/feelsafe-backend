@@ -1,0 +1,37 @@
+version: "3.9"
+services:
+
+  postgresdb:
+    image: postgres:16.0
+    networks:
+      - postgres-network
+    restart: unless-stopped
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      PG_USER: postgres
+      POSTGRES_DATABASE: feelsafe
+    expose:
+      - "5432"
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d feelsafe -U postgres"]
+      interval: 2s
+      timeout: 20s
+      retries: 10
+
+  feelsafe:
+    image: onuraltuntasb/feelsafe-backend:v1.0
+    expose:
+      - "8080"
+    ports:
+      - "8080:8080"
+    networks:
+      - postgres-network
+    depends_on:
+      postgresdb:
+        condition: service_healthy
+
+networks:
+  postgres-network:

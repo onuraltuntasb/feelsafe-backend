@@ -45,7 +45,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
 
 
-        Optional<String> diaryAuthCookie = readServletCookie(request, "diary-auth-cookie"); String userEmail;
+        Optional<String> diaryAuthCookie = readServletCookie(request, "feelsafe-at-cookie");
+        String userEmail;
         String jwtToken = "";
         if (diaryAuthCookie.isPresent()) {
             userEmail = diaryAuthCookie.get().substring(diaryAuthCookie.get().indexOf("email") + 6);
@@ -53,8 +54,6 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         } else {
             userEmail = ""; filterChain.doFilter(request, response); return;
         }
-
-        log.info("userEmail : {}", userEmail);
 
         if (!userEmail.isEmpty() &&
                 SecurityContextHolder.getContext().getAuthentication() == null) {

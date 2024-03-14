@@ -1,8 +1,6 @@
 package com.feelsafe.feelsafe.repository;
 
-import com.feelsafe.feelsafe.model.Diary;
 import com.feelsafe.feelsafe.model.RefreshToken;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -16,9 +14,9 @@ public class JdbcRefreshTokenRepository {
     private final JdbcTemplate jdbcTemplate;
 
     public Optional<RefreshToken> getByUserId(Long userId) {
-
+        String sql = "select * from refresh_token where user_id = ?";
         try {
-            return jdbcTemplate.queryForObject("select * from refresh_token where user_id = ?",
+            return jdbcTemplate.queryForObject(sql,
                                                new Object[]{userId},
                                                (rs, rowNum) ->
                                                        Optional.of(new RefreshToken(
@@ -38,9 +36,9 @@ public class JdbcRefreshTokenRepository {
 
 
     public Optional<RefreshToken> getByToken(String token) {
-
+        String sql = "select * from refresh_token where token = ?";
         try {
-            return jdbcTemplate.queryForObject("select * from refresh_token where token = ?",
+            return jdbcTemplate.queryForObject(sql,
                                         new Object[]{token},
                                         (rs, rowNum) ->
                                                 Optional.of(new RefreshToken(
@@ -59,10 +57,9 @@ public class JdbcRefreshTokenRepository {
     }
 
     public RefreshToken save(RefreshToken refreshToken) {
-
+        String sql = "insert into refresh_token (user_id,token,expiry_date) values(?,?,?)";
         try{
-            jdbcTemplate.update(
-                    "insert into refresh_token (user_id,token,expiry_date) values(?,?,?)",
+            jdbcTemplate.update(sql ,
                     refreshToken.getUserId(),refreshToken.getToken(),refreshToken.getExpiryDate());
             return refreshToken;
         }catch (DataAccessException e){
@@ -84,11 +81,9 @@ public class JdbcRefreshTokenRepository {
     }
 
     public int deleteByUserId(Long userId) {
-
+        String sql = "delete from refresh_token where user_id = ?";
         try{
-            return jdbcTemplate.update(
-                    "delete from refresh_token where user_id = ?",
-                    userId);
+            return jdbcTemplate.update(sql,userId);
         }catch (DataAccessException e){
             throw new RuntimeException(e);
         }

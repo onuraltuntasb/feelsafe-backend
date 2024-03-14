@@ -1,8 +1,8 @@
 package com.feelsafe.feelsafe.service;
 
+import com.feelsafe.feelsafe.Entity.User;
 import com.feelsafe.feelsafe.exception.ResourceNotFoundException;
 import com.feelsafe.feelsafe.model.RefreshToken;
-import com.feelsafe.feelsafe.model.User;
 import com.feelsafe.feelsafe.model.payload.request.RegisterRequest;
 import com.feelsafe.feelsafe.model.payload.response.RefreshTokenResponse;
 import com.feelsafe.feelsafe.model.payload.response.UserAuthResponse;
@@ -60,12 +60,14 @@ public class UserService {
 
     }
 
-    public UserAuthResponse loginUser(RegisterRequest registerRequest){
+    public UserAuthResponse loginUser(RegisterRequest registerRequest)  {
+
         User rUser = (User) jdbcUserRepository
                 .getUserByEmail(registerRequest.getEmail())
                 .orElseThrow(() ->
-                                     new ResourceNotFoundException
-                                             ("Not found email with id = " + registerRequest.getEmail()));
+                                     new ResourceNotFoundException(
+                                             "Not found email with email = " + registerRequest.getEmail()));
+
 
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(

@@ -16,7 +16,7 @@ public class FeelsafeApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		log.info("StartApplication...");
-		runJDBC();
+		//runJDBC();
 	}
 
 	void runJDBC() {

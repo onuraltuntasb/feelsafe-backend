@@ -9,12 +9,9 @@ import lombok.*;
 @Setter
 @Builder
 public class UserAuthResponse {
-
     private String email;
-    private String name;
     private String jwtToken;
     private String jwtRefreshToken;
     private Boolean isAuth;
-
 }
 
